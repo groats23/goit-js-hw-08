@@ -7,11 +7,7 @@ const refs = {
 };
 
 const STORAGE_KEY = 'feedback-form-state';
-const formFeedbackData = {};
-const userFormData = {
-  email: refs.formInput,
-  message: refs.formTextarea,
-};
+let formFeedbackData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
 refs.feedbackForm.addEventListener('input', throttle(formInputHandler, 500));
 refs.feedbackForm.addEventListener('submit', onSubmitFormBtnClick);
@@ -24,13 +20,9 @@ function formInputHandler(e) {
 
 function populateSavedData() {
   const savedFormData = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  if (savedFormData.email) {
-    userFormData.email.value = savedFormData.email;
-    formFeedbackData.email = userFormData.email.value;
-  }
-  if (savedFormData.message) {
-    userFormData.message.value = savedFormData.message;
-    formFeedbackData.message = userFormData.message.value;
+  if (savedFormData) {
+    refs.formInput.value = savedFormData.email || '';
+    refs.formTextarea.value = savedFormData.message || '';
   }
 }
 
@@ -40,10 +32,11 @@ function onSubmitFormBtnClick(e) {
     e.currentTarget.email.value === '' ||
     e.currentTarget.message.value === ''
   ) {
-    alert('Please, fill in empty areas in order to submit form!');
+    alert('Please, fill in empty areas in order to submit the form!');
   } else {
-    console.log('formData: ', formFeedbackData);
+    console.log('formData:', formFeedbackData);
     e.currentTarget.reset();
     localStorage.removeItem(STORAGE_KEY);
+    formFeedbackData = {};
   }
 }
