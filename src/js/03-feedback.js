@@ -34,7 +34,7 @@ function onSubmitFormBtnClick(e) {
   ) {
     alert('Please, fill in empty areas in order to submit the form!');
   } else {
-    console.log('formData:', formFeedbackData);
+    console.log('Form Data:', formFeedbackData);
     e.currentTarget.reset();
     localStorage.removeItem(STORAGE_KEY);
     formFeedbackData = {};
